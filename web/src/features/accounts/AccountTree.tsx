@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import type { AccountNode } from './types';
+import { useState } from "react";
+import type { AccountNode } from "./types";
 
 interface TreeProps {
   nodes: AccountNode[];
@@ -9,9 +9,14 @@ interface TreeProps {
 
 export function AccountTree({ nodes, onDelete, deletingCode }: TreeProps) {
   return (
-    <ul style={{ listStyle: 'none', paddingLeft: 20 }}>
+    <ul style={{ listStyle: "none", paddingLeft: 20 }}>
       {nodes.map((node) => (
-        <TreeItem key={node.code} node={node} onDelete={onDelete} deletingCode={deletingCode} />
+        <TreeItem
+          key={node.code}
+          node={node}
+          onDelete={onDelete}
+          deletingCode={deletingCode}
+        />
       ))}
     </ul>
   );
@@ -30,23 +35,38 @@ function TreeItem({ node, onDelete, deletingCode }: ItemProps) {
 
   return (
     <li>
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '4px 0' }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 8,
+          alignItems: "center",
+          padding: "4px 0",
+        }}
+      >
         <button
           onClick={() => setOpen(!open)}
           disabled={!hasChildren}
-          aria-label={open ? 'Colapsar' : 'Expandir'}
+          aria-label={open ? "Colapsar" : "Expandir"}
         >
-          {hasChildren ? (open ? '▼' : '▶') : '•'}
+          {hasChildren ? (open ? "▼" : "▶") : "•"}
         </button>
         <span>
-          <strong>{node.code}</strong> {node.name}
+          <strong>{node.code}</strong> {node.name}{" "}
+          <small style={{ opacity: 0.6 }}>
+            {node.level.toLowerCase()} ·{" "}
+            {node.nature === "DEBIT" ? "débito" : "crédito"}
+          </small>
         </span>
         <button onClick={() => onDelete(node.code)} disabled={deleting}>
-          {deleting ? 'Eliminando…' : 'Eliminar'}
+          {deleting ? "Eliminando…" : "Eliminar"}
         </button>
       </div>
       {open && hasChildren && (
-        <AccountTree nodes={node.children} onDelete={onDelete} deletingCode={deletingCode} />
+        <AccountTree
+          nodes={node.children}
+          onDelete={onDelete}
+          deletingCode={deletingCode}
+        />
       )}
     </li>
   );
