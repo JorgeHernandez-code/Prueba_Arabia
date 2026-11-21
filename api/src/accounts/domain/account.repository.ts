@@ -1,4 +1,4 @@
-import { Account } from './account.entity';
+import { Account } from './account.entity.js';
 
 export interface AccountRepository {
   findByCode(code: string): Promise<Account | null>;
